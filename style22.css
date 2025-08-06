@@ -1,0 +1,211 @@
+/* --- Google Fonts & Root Variables --- */
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&display=swap');
+
+:root {
+    --bg-dark: #121212;
+    --primary-dark: #1A1A1A;
+    --accent-blue: #007BFF;
+    --accent-blue-glow: rgba(0, 123, 255, 0.5);
+    --text-light: #EAEAEA;
+    --text-muted-dark: #888;
+    --border-dark: #333;
+}
+
+body {
+    font-family: 'Exo 2', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+/* --- General & Reusable Classes --- */
+.page-content {
+    padding-top: 120px;
+    padding-bottom: 4rem;
+}
+
+.page-title {
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+/* --- Header --- */
+.navbar {
+    transition: background-color 0.3s ease;
+}
+.navbar-brand img {
+    height: 40px; /* Adjust height of your logo */
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    transition: color .3s ease;
+}
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+    color: #fff;
+}
+.scrolled {
+    background-color: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+/* --- Hero Section (Homepage) --- */
+.hero-section {
+    background: url('https://via.placeholder.com/1920x1080/000/fff?text=Feel+the+Pulse') no-repeat center center/cover;
+    height: 100vh;
+    position: relative;
+}
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(18, 18, 18, 0.4), rgba(18, 18, 18, 1));
+}
+.hero-section .container {
+    position: relative;
+    z-index: 1;
+}
+.hero-section h1 {
+    font-weight: 700;
+}
+
+/* --- Buttons & Forms --- */
+.btn {
+    border-radius: 30px;
+    padding: 12px 30px;
+    font-weight: 700;
+    transition: all .3s ease;
+    border: 2px solid transparent;
+}
+.btn-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: #fff;
+}
+.btn-primary:hover {
+    background-color: #fff;
+    border-color: #fff;
+    color: var(--accent-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.btn-outline-primary {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+}
+.btn-outline-primary:hover {
+    background-color: var(--accent-blue);
+    color: #fff;
+}
+.form-control {
+    background-color: var(--primary-dark);
+    border: 1px solid var(--border-dark);
+    color: var(--text-light);
+    border-radius: 10px;
+    padding: 12px;
+}
+.form-control::placeholder {
+    color: var(--text-muted-dark);
+}
+.form-control:focus {
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 0.25rem var(--accent-blue-glow);
+}
+
+/* --- Product Card --- */
+.product-card {
+    background-color: var(--primary-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform .3s ease, box-shadow .3s ease;
+    text-align: center;
+    overflow: hidden;
+}
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px var(--accent-blue-glow);
+    border-color: var(--accent-blue);
+}
+.product-card .card-img-top {
+    border-bottom: 1px solid var(--border-dark);
+}
+.product-card .card-body {
+    padding: 1.5rem;
+}
+.product-card .card-title {
+    color: #fff;
+}
+.product-card .card-text {
+    color: var(--accent-blue);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* --- Shop Page & Filters --- */
+.filter-sidebar {
+    background-color: var(--primary-dark);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid var(--border-dark);
+}
+.form-check-input {
+    background-color: var(--border-dark);
+    border-color: #555;
+}
+.form-check-input:checked {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+/* --- Product Detail Page --- */
+.product-thumbnail-gallery .img-thumbnail {
+    background-color: var(--primary-dark);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all .3s ease;
+    border-radius: 10px;
+    border: 2px solid transparent;
+}
+.product-thumbnail-gallery .img-thumbnail:hover {
+    opacity: 1;
+    border-color: var(--accent-blue);
+}
+.product-thumbnail-gallery .img-thumbnail.active {
+    opacity: 1;
+    transform: scale(1.1);
+    border-color: var(--accent-blue);
+}
+.price {
+    color: var(--accent-blue);
+    font-size: 2rem;
+    font-weight: 700;
+}
+.accordion {
+    --bs-accordion-bg: var(--primary-dark);
+    --bs-accordion-color: var(--text-light);
+    --bs-accordion-border-color: var(--border-dark);
+    --bs-accordion-btn-color: var(--text-light);
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem var(--accent-blue-glow);
+    --bs-accordion-active-color: #fff;
+    --bs-accordion-active-bg: var(--accent-blue);
+}
+
+/* --- Footer --- */
+footer {
+    background-color: var(--primary-dark);
+}
+footer .text-white-50 {
+    color: var(--text-muted-dark) !important;
+    transition: color .3s ease;
+}
+footer .text-white-50:hover {
+    color: #fff !important;
+}
+footer .text-primary {
+    color: var(--accent-blue) !important;
+}
