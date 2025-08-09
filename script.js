@@ -505,4 +505,123 @@ const canvas = document.getElementById('gameCanvas');
             }
         }
         
+        function drawPacman() {
+            // Convert grid position to pixel position and center in cell
+            const x = pacman.x * CELL_SIZE + CELL_SIZE / 2;
+            const y = pacman.y * CELL_SIZE + CELL_SIZE / 2;
+            
+            ctx.fillStyle = '#ffff00';
+            ctx.beginPath();
+            
+            if (pacman.mouthOpen && (pacman.dx !== 0 || pacman.dy !== 0)) {
+                let startAngle = 0;
+                let endAngle = Math.PI * 2;
+                
+                if (pacman.dx > 0) { // Right
+                    startAngle = 0.2 * Math.PI;
+                    endAngle = 1.8 * Math.PI;
+                } else if (pacman.dx < 0) { // Left
+                    startAngle = 1.2 * Math.PI;
+                    endAngle = 0.8 * Math.PI;
+                } else if (pacman.dy > 0) { // Down
+                    startAngle = 1.7 * Math.PI;
+                    endAngle = 1.3 * Math.PI;
+                } else if (pacman.dy < 0) { // Up
+                    startAngle = 0.7 * Math.PI;
+                    endAngle = 0.3 * Math.PI;
+                }
+                
+                ctx.arc(x, y, 12, startAngle, endAngle);
+                ctx.lineTo(x, y);
+            } else {
+                ctx.arc(x, y, 12, 0, Math.PI * 2);
+            }
+            
+            ctx.fill();
+        }
         
+        function drawGhosts() {
+            ghosts.forEach(ghost => {
+                // Convert grid position to pixel position and center in cell
+                const x = ghost.x * CELL_SIZE + CELL_SIZE / 2;
+                const y = ghost.y * CELL_SIZE + CELL_SIZE / 2;
+                
+                if (ghost.vulnerable) {
+                    ctx.fillStyle = powerPelletTimer > 60 ? '#0000ff' : (powerPelletTimer % 20 < 10 ? '#0000ff' : '#ffffff');
+                } else {
+                    ctx.fillStyle = ghost.color;
+                }
+                
+                // Ghost body
+                ctx.beginPath();
+                ctx.arc(x, y - 4, 12, Math.PI, 0);
+                ctx.lineTo(x + 12, y + 8);
+                ctx.lineTo(x + 8, y + 12);
+                ctx.lineTo(x + 4, y + 8);
+                ctx.lineTo(x, y + 12);
+                ctx.lineTo(x - 4, y + 8);
+                ctx.lineTo(x - 8, y + 12);
+                ctx.lineTo(x - 12, y + 8);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Eyes
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(x - 4, y - 4, 3, 0, Math.PI * 2);
+                ctx.arc(x + 4, y - 4, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (!ghost.vulnerable) {
+                    ctx.fillStyle = '#000000';
+                    ctx.beginPath();
+                    ctx.arc(x - 4 + ghost.dx, y - 4 + ghost.dy, 1.5, 0, Math.PI * 2);
+                    ctx.arc(x + 4 + ghost.dx, y - 4 + ghost.dy, 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+        }
+        
+        // Main game loop
+        function gameLoop() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (gameState === 'playing') {
+                // Update game logic
+                movePacman();
+                moveGhosts();
+                checkCollisions();
+                updatePowerPellet();
+                checkLevelComplete();
+            }
+            
+            // Draw everything
+            drawMaze();
+            drawPacman();
+            drawGhosts();
+            
+            // Draw pause overlay
+            if (gameState === 'paused') {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ffff00';
+                ctx.font = "36px 'Press Start 2P', cursive";
+                ctx.textAlign = 'center';
+                ctx.fillText('PAUSED', canvas.width / 2, canvas.height / 2);
+                ctx.textAlign = 'left';
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Touch controls for mobile
+        document.addEventListener('touchmove', function(e) {
+            if (!e.target.classList.contains('control-btn')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Start the game
+        initGame();
+        gameLoop();
